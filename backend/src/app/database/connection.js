@@ -3,7 +3,7 @@ import pool from './pool.js';
 /**
  * 
  * @param {string} sql Consulta que será enviada para o SQL executar.
- * @param {[ array ]} valores Array de valores que será passada para a consulta, caso ela precise disso.
+ * @param {array} valores Array de valores que será passada para a consulta, caso ela precise disso.
  * @returns Retorna o erro, caso tenha, ou o resultado da consulta.
  */
 

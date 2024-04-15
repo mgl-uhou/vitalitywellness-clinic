@@ -19,33 +19,23 @@ DELETE /profissionais/{id_profissional}
 */
 
 app.get('/profissionais', async (_request, response) => {
-    const sql = `select * from tblProfissionais;`;
-    response.json(await repository.getAll(sql));
+    response.json(await repository.getAll('tblProfissionais'));
 });
 
 app.post('/profissionais', async (request, response) => {
-    /* const {
-        pnome_profissional,
-        snome_profissional,
-        email_profissional,
-        senha_profissional,
-        cpf_profissional
-    } = request.body; */
-
-    const sql = `insert into tblProfissionais (
-        pnome_profissional, snome_profissional, email_profissional, senha_profissional, cpf_profissional
-    )
-    values (?, ?, ?, ?, ?)`
-
-    /* const result = repository.addRow(sql, [
-        pnome_profissional,
-        snome_profissional,
-        email_profissional,
-        senha_profissional,
-        cpf_profissional
-    ]); */
-    const result = repository.addRow(sql, Object.values(request.body));
+    const variables = Object.values(request.body); // Object.values() cria um array com os valores das chaves de um objeto na ordem em que elas estão.
+    const result = await repository.addRow('tblProfissionais', 'pnome_profissional, snome_profissional, email_profissional, senha_profissional, cpf_profissional', variables);
     response.json(result);
+});
+
+app.get('/profissionais/:id', async (request, response) => {
+    const id = request.params.id;
+    const result = await repository.getById('tblProfissionais', 'id_profissional', id);
+    response.json(result);
+});
+
+app.put('/profissionais/:id', async (request, response) => {
+    
 });
 
 export default app;

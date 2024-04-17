@@ -21,7 +21,13 @@ class controller {
 	}
 
 	async store(request, response) {
-		const variables = Object.values(request.body); // Object.values() cria um array com os valores das chaves de um objeto na ordem em que elas estão.
+		let variables;
+		if(request.params.id){
+			let array = Object.values(request.body);
+			variables = [parseInt(request.params.id), ...array]
+		} else{		
+			variables = Object.values(request.body); // Object.values() cria um array com os valores das chaves de um objeto na ordem em que elas estão.
+		}
 		const result = await repository.addRow(
 			this.getNomeTabela(),
 			this.getAtributos().join(", "),
@@ -52,13 +58,23 @@ class controller {
 		response.json(result);
 	}
 
+	/* FIXME: RESOLVER PROBLEMA COM A VARIÁVEL backup */
 	async delete(request, response) {
-		const id = request.params.id;
+		let id, backup;
+		console.log(this.getAtributoId())
+		if(request.params.valor){
+			backup = this.getAtributoId();
+			this._atributoId = `${this.getAtributoId()} = ? and ${this.getAtributos()[1]}`
+			id = [request.params.id, request.params.valor]
+		}else{
+			id = [request.params.id];
+		}
 		const result = await repository.deleteById(
 			this.getNomeTabela(),
 			this.getAtributoId(),
 			id
 		);
+		this._atributoId = backup;
 		response.json(result);
 	}
 }
@@ -75,4 +91,10 @@ const controllerProfissionais = new controller(
 	]
 );
 
-export default controllerProfissionais;
+const controllerEspecsPro = new controller(
+	'tblEspecs_Profissionais',
+	'id_profissional',
+	['id_profissional', 'especs_profissional']
+)
+
+export { controllerProfissionais, controllerEspecsPro };

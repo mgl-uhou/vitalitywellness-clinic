@@ -2,16 +2,12 @@ import { pool } from '../database/classePool.js';
 import { exception } from './exception.js';
 
 class repository{
-	consoleError(error){
-		return console.error('Não foi possível realizar a consulta. Error:', error);
-	};
-
 	/**
 	 * 
 	 * @param {string} nomeTabela Nome da tabela
 	 * @returns Resultado da consulta em JSON
 	 */
-	async getAll(nomeTabela){
+	getAll(nomeTabela){
 		const sql = `select * from ${nomeTabela};`;
 		return exception(pool, sql, [], 'Não foi possível mostrar os resultados solicitados.');
 	}
@@ -23,7 +19,7 @@ class repository{
 	 * @param {array} values Array de valores para as propriedades.
 	 * @returns Retorna o resultado da inserção.
 	 */
-	async addRow(nomeTabela, nomeAtributos, values){
+	addRow(nomeTabela, nomeAtributos, values){
 		const arrayNomes = nomeAtributos.split(',');
 		const interrogacoes = arrayNomes.map(() => '?').join(', ');
 		const sql = `insert into ${nomeTabela} (${nomeAtributos}) values (${interrogacoes})`;
@@ -37,7 +33,7 @@ class repository{
 	 * @param {number} id Valor do id do elemento.
 	 * @returns Retorna em JSON o elemento procurado, nada ou uma mensagem de erro.
 	 */
-	async getById(nomeTabela, atributoId, id) {
+	getById(nomeTabela, atributoId, id) {
 		const sql = `select * from ${nomeTabela} where ${atributoId} = ?;`;
 		return exception(pool, sql, [id], 'Não foi possível encontrar o que foi solicitado. Certifique-se de ser algo existente na base de dados.');
 	}
@@ -50,7 +46,7 @@ class repository{
 	 * @param {array} values Array de valores à serem passados na query 
 	 * @returns Retorna o resultado da consulta.
 	 */
-	async updateById(nomeTabela, propriedades, atributoId, values){
+	updateById(nomeTabela, propriedades, atributoId, values){
 		const propriedadeValor = propriedades.split(',').map(p => `${p} = ?`).join(', ')
 		const sql = `update ${nomeTabela} set ${propriedadeValor} where ${atributoId} = ?;`;
 		return exception(pool, sql, values, 'Não foi possível atualizar. Certifique-se de usar os valores corretor e de que o elemento existe na base de dados.');
@@ -60,12 +56,12 @@ class repository{
 	 * 
 	 * @param {string} nomeTabela Nome da tabela.
 	 * @param {string} atributoId Nome do atributo identificador da tabela.
-	 * @param {number} id Número do atributo identificador do elemento que será deletado.
+	 * @param {number || array} id Número do atributo identificador do elemento que será deletado.
 	 * @returns  Retorna o resultado da consulta.
 	 */
-	async deleteById(nomeTabela, atributoId, id){
+	deleteById(nomeTabela, atributoId, id){
 		const sql = `delete from ${nomeTabela} where ${atributoId} = ?;`;
-		return exception(pool, sql, [id], 'Não foi possível fazer a deleção. Certifique-se de que o elemento existe na base de dados.');
+		return exception(pool, sql, id, 'Não foi possível fazer a deleção. Certifique-se de que o elemento existe na base de dados.');
 	}
 };
 

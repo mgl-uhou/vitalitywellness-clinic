@@ -15,7 +15,7 @@ export const exception = async (pool, sql, values = [], errorMessage) => {
 		);
 		return result;
 	} catch (error) {
-		this.consoleError(error);
+		console.error('Não foi possível realizar a consulta. Error:', error);
 		return error.message;
 	}
 };

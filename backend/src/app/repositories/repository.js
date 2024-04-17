@@ -5,6 +5,11 @@ class repository{
 		return console.error('Não foi possível realizar a consulta. Error:', error);
 	};
 
+	/**
+	 * 
+	 * @param {string} nomeTabela Nome da tabela
+	 * @returns Resultado da consulta em JSON
+	 */
 	async getAll(nomeTabela){
 		const sql = `select * from ${nomeTabela};`;
 		try{
@@ -62,11 +67,29 @@ class repository{
 	 * @param {array} valores Array de valores à serem passados na query 
 	 * @returns Retorna o resultado da consulta.
 	 */
-	async updateById(nomeTabela, propriedades, atributoId, valores, id){
+	async updateById(nomeTabela, propriedades, atributoId, valores){
 		const propriedadeValor = propriedades.split(',').map(p => `${p} = ?`).join(', ')
-		const sql = `update ${nomeTabela} set ${propriedadeValor} = ? where ${atributoId} = ?;`;
+		const sql = `update ${nomeTabela} set ${propriedadeValor} where ${atributoId} = ?;`;
 		try{
-			const result = await pool.connection(sql, [...valores, id], 'Não foi possível atualizar. Certifique-se de usar os valores corretor e de que o elemento existe na base de dados.'); 
+			const result = await pool.connection(sql, valores, 'Não foi possível atualizar. Certifique-se de usar os valores corretor e de que o elemento existe na base de dados.'); 
+			return result;
+		}catch(error){
+			this.consoleError(error);
+			return error.message;
+		}
+	}
+
+	/**
+	 * 
+	 * @param {string} nomeTabela Nome da tabela.
+	 * @param {string} atributoId Nome do atributo identificador da tabela.
+	 * @param {number} id Número do atributo identificador do elemento que será deletado.
+	 * @returns  Retorna o resultado da consulta.
+	 */
+	async deleteById(nomeTabela, atributoId, id){
+		const sql = `delete from ${nomeTabela} where ${atributoId} = ?;`;
+		try{
+			const result = await pool.connection(sql, [id], 'Não foi possível fazer a deleção. Certifique-se de que o elemento existe na base de dados.'); 
 			return result;
 		}catch(error){
 			this.consoleError(error);

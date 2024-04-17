@@ -6,8 +6,7 @@ const app = express();
 app.use(express.json()); // Serve para o express ler o body no formato json
 
 app.get('/home', async (_request, response) => {
-    const sql = `select * from tblServicos;`;
-    response.json(await repository.getAll(sql));
+    response.json(await repository.getAll('tblServicos'));
 });
 
 /* 
@@ -35,7 +34,16 @@ app.get('/profissionais/:id', async (request, response) => {
 });
 
 app.put('/profissionais/:id', async (request, response) => {
-    
+    const id = request.params.id;
+    const variables = Object.values(request.body);
+    const result = await repository.updateById('tblProfissionais', 'pnome_profissional, snome_profissional, email_profissional, senha_profissional, cpf_profissional', 'id_profissional', [...variables, id]); // ...array desestrutura o array dentro de outro array na ordem em que estão.
+    response.json(result);
+});
+
+app.delete('/profissionais/:id', async (request, response) => {
+    const id = request.params.id;
+    const result = await repository.deleteById('tblProfissionais', 'id_profissional', id);
+    response.json(result);
 });
 
 export default app;

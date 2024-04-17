@@ -17,8 +17,8 @@ class Pool {
 		queueLimit = 0,
 		enableKeepAlive = true,
 		keepAliveInitialDelay = 0
-	) {
-		this.pool = mysql2.createPool({
+	) { 
+		this._pool = mysql2.createPool({
 			host,
 			user,
 			password,
@@ -31,6 +31,10 @@ class Pool {
 			enableKeepAlive,
 			keepAliveInitialDelay,
 		});
+	} 
+
+	getPool(){
+		return this._pool;
 	}
 	
 	/**
@@ -43,7 +47,7 @@ class Pool {
 	async connection(sql, valores, errorMessage) {
 		let conn;
 		try {
-			conn = await this.pool.promise().getConnection();
+			conn = await this.getPool().promise().getConnection();
 			if(!conn) throw new Error('Não foi possível estabelecer uma conexão.')
 			
 			const [ rows, _fields ] = await conn.execute(sql, valores);

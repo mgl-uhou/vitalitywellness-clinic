@@ -43,7 +43,7 @@ class controller {
 			this.getAtributoId(),
 			id
 		);
-		response.json(result);
+		response.json(result.length > 1 ? result : result[0]);
 	}
 
 	async update(request, response) {
@@ -58,10 +58,8 @@ class controller {
 		response.json(result);
 	}
 
-	/* FIXME: RESOLVER PROBLEMA COM A VARIÁVEL backup */
 	async delete(request, response) {
 		let id, backup;
-		console.log(this.getAtributoId())
 		if(request.params.valor){
 			backup = this.getAtributoId();
 			this._atributoId = `${this.getAtributoId()} = ? and ${this.getAtributos()[1]}`
@@ -74,27 +72,9 @@ class controller {
 			this.getAtributoId(),
 			id
 		);
-		this._atributoId = backup;
+		if(backup) return this._atributoId = backup;
 		response.json(result);
 	}
 }
 
-const controllerProfissionais = new controller(
-	"tblProfissionais",
-	"id_profissional",
-	[
-		"pnome_profissional",
-		"snome_profissional",
-		"email_profissional",
-		"senha_profissional",
-		"cpf_profissional",
-	]
-);
-
-const controllerEspecsPro = new controller(
-	'tblEspecs_Profissionais',
-	'id_profissional',
-	['id_profissional', 'especs_profissional']
-)
-
-export { controllerProfissionais, controllerEspecsPro };
+export default controller;

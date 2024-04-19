@@ -13,21 +13,67 @@ const controllerProfissionais = new controller(
 );
 
 const controllerEspecsPro = new controller(
-	'tblEspecs_Profissionais',
-	'id_profissional',
-	['id_profissional', 'especs_profissional']
+	"tblEspecsProfissionais",
+	"id_profissional",
+	["id_profissional", "especs_profissional"]
 );
 
 const controllerServicos = new controller(
-	'tblServicos',
-	'id_servico',
-	['nome_servico']
+	"tblServicos", 
+	"id_servico", 
+	[ "nome_servico" ]
 );
 
 const controllerPrestam = new controller(
-	'tblPrestam',
-	'id_profissional',
-	['id_profissional', 'id_servico']
+	"tblPrestam", 
+	"id_profissional", 
+	[ "id_profissional", "id_servico" ]
 );
 
-export { controllerProfissionais, controllerEspecsPro, controllerServicos, controllerPrestam };
+const controllerPacientes = new controller("tblPacientes", "id_paciente", [
+	"pnome_paciente",
+	"snome_paciente",
+	"email_paciente",
+	"senha_paciente",
+	"cpf_paciente",
+	"dt_nasc_paciente",
+]);
+
+const controllerTelPacientes = new controller(
+	"tblTelPacientes",
+	"id_paciente",
+	[ "id_paciente", "tel_paciente" ]
+);
+
+const controllerPagamentosAtende = new controller(
+	'tblPagamentosAtende',
+	'id_pagamento',
+	[
+		'status_pagamento',
+		'id_paciente',
+		'id_profissional',
+		'valor_pagamento'
+	]
+);
+
+const controllerConsultas = new controller(
+	'tblConsultas',
+	'id_consulta',
+	[
+		'dt_hr_consulta',
+		'status_consulta',
+		'obs_consulta',
+		'id_paciente'
+	]
+);
+
+export {
+	controllerProfissionais,
+	controllerEspecsPro,
+	controllerServicos,
+	controllerPrestam,
+	controllerPacientes,
+	controllerTelPacientes,
+	controllerPagamentosAtende,
+	controllerConsultas
+};

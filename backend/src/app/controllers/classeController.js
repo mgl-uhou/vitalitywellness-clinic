@@ -1,4 +1,5 @@
 import repository from "../repositories/repository.js";
+import moment from "moment";
 
 class controller {
 	/**
@@ -16,8 +17,23 @@ class controller {
 	getAtributoId = () => this._atributoId;
 	getAtributos = () => this._atributos;
 
+	formatDateAndHour(element){
+		element.forEach(item => {
+			if(item.dt_hr_consulta){
+				let date = moment(item.dt_hr_consulta).format('DD/MM/YYYY HH:mm');
+				item.dt_hr_consulta = date;
+			}else if(item.dt_nasc_paciente){
+				let date = moment(item.dt_nasc_paciente).format('DD/MM/YYYY');
+				item.dt_nasc_paciente = date;
+			}
+		})
+		return element;
+	}
+
 	async index(_request, response) {
-		response.json(await repository.getAll(this.getNomeTabela()));
+		let result = await repository.getAll(this.getNomeTabela());
+		result = this.formatDateAndHour(result);
+		response.json(result);
 	}
 
 	async store(request, response) {
@@ -43,7 +59,7 @@ class controller {
 			this.getAtributoId(),
 			id
 		);
-		response.json(result.length > 1 ? result : result[0]);
+		response.json(result.length > 1 ? this.formatDateAndHour(result) : this.formatDateAndHour(result)[0]);
 	}
 
 	async update(request, response) {

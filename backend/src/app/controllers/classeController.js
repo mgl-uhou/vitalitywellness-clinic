@@ -73,7 +73,7 @@ class controller {
 		); // ...array desestrutura o array dentro de outro array na ordem em que estão.
 		response.json(result);
 	}
-
+	// TODO: Criar um método para deletar com base em dois valores (deleteBy2Values) e deixar esse abaixo como um de deleção simples.
 	async delete(request, response) {
 		let id, backup;
 		if(request.params.valor){

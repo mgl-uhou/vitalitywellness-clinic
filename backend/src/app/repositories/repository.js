@@ -90,7 +90,7 @@ class repository {
 			"Não foi possível atualizar. Certifique-se de usar os valores corretor e de que o elemento existe na base de dados."
 		);
 	}
-	// TODO: Criar um método para deletar com base em dois valores (deleteBy2Values) e deixar esse abaixo como um de deleção simples.
+	
 	/**
 	 *
 	 * @param {string} nomeTabela Nome da tabela.

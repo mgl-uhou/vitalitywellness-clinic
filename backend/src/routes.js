@@ -14,7 +14,7 @@ router.delete('/profissionais/:id', controllerProfissionais.delete.bind(controll
 
 router.get('/profissionais/:id/especialidades', controllerEspecsPro.show.bind(controllerEspecsPro));
 router.post('/profissionais/:id/especialidades', controllerEspecsPro.store.bind(controllerEspecsPro));
-router.delete('/profissionais/:id/especialidades/:valor', controllerEspecsPro.delete.bind(controllerEspecsPro));
+router.delete('/profissionais/:id/especialidades/:value', controllerEspecsPro.deleteBy2Values.bind(controllerEspecsPro));
 router.delete('/profissionais/:id/especialidades', controllerEspecsPro.delete.bind(controllerEspecsPro));
 
 router.get('/servicos', controllerServicos.index.bind(controllerServicos)); 
@@ -25,7 +25,7 @@ router.delete('/servicos/:id', controllerServicos.delete.bind(controllerServicos
 
 router.get('/profissionais/:id/servicos', controllerPrestam.show.bind(controllerPrestam));
 router.post('/profissionais/:id/servicos', controllerPrestam.store.bind(controllerPrestam));
-router.delete('/profissionais/:id/servicos/:valor', controllerPrestam.delete.bind(controllerPrestam));
+router.delete('/profissionais/:id/servicos/:value', controllerPrestam.deleteBy2Values.bind(controllerPrestam));
 router.delete('/profissionais/:id/servicos', controllerPrestam.delete.bind(controllerPrestam));
 
 router.get('/pacientes', controllerPacientes.index.bind(controllerPacientes)); 
@@ -36,7 +36,7 @@ router.delete('/pacientes/:id', controllerPacientes.delete.bind(controllerPacien
 
 router.get('/pacientes/:id/telefones', controllerTelPacientes.show.bind(controllerTelPacientes));
 router.post('/pacientes/:id/telefones', controllerTelPacientes.store.bind(controllerTelPacientes));
-router.delete('/pacientes/:id/telefones/:valor', controllerTelPacientes.delete.bind(controllerTelPacientes));
+router.delete('/pacientes/:id/telefones/:value', controllerTelPacientes.deleteBy2Values.bind(controllerTelPacientes));
 router.delete('/pacientes/:id/telefones', controllerTelPacientes.delete.bind(controllerTelPacientes));
 
 router.get('/pagamentos', controllerPagamentosAtende.index.bind(controllerPagamentosAtende)); 

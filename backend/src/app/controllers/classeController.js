@@ -5,7 +5,7 @@ class controller {
 	/**
 	 *
 	 * @param {string} nomeTabela Nome da tabela à qual o objeto referencia
-	 * @param {string} atributoId Nome do seu atributo identificador.
+	 * @param {string || Array} atributoId Nome do seu atributo identificador.
 	 * @param {Array} atributos Array contendo o nome de todos os outros atributos como string
 	 */
 	constructor(nomeTabela, atributoId, atributos) {
@@ -32,8 +32,7 @@ class controller {
 
 	async index(_request, response) {
 		let result = await repository.getAll(this.getNomeTabela());
-		result = this.formatDateAndHour(result);
-		response.json(result);
+		response.json(result.length > 1 ? this.formatDateAndHour(result) : this.formatDateAndHour(result)[0]);
 	}
 
 	async store(request, response) {
@@ -73,22 +72,22 @@ class controller {
 		); // ...array desestrutura o array dentro de outro array na ordem em que estão.
 		response.json(result);
 	}
-	// TODO: Criar um método para deletar com base em dois valores (deleteBy2Values) e deixar esse abaixo como um de deleção simples.
+	
 	async delete(request, response) {
-		let id, backup;
-		if(request.params.valor){
-			backup = this.getAtributoId();
-			this._atributoId = `${this.getAtributoId()} = ? and ${this.getAtributos()[1]}`
-			id = [request.params.id, request.params.valor]
-		}else{
-			id = [request.params.id];
-		}
 		const result = await repository.deleteById(
 			this.getNomeTabela(),
 			this.getAtributoId(),
-			id
+			[request.params.id]
 		);
-		if(backup) return this._atributoId = backup;
+		response.json(result);
+	}
+
+	async deleteBy2Values(request, response) {
+		const result = await repository.deleteById(
+			this.getNomeTabela(),
+			this.getAtributos().join(' = ? and '),
+			[request.params.id, request.params.value]
+		);
 		response.json(result);
 	}
 }

@@ -31,7 +31,7 @@ class Pool {
 			keepAliveInitialDelay,
 		});
 
-	this.createDataBaseIfNotExists(database);	
+		this.createDataBaseIfNotExists(database);	
 	}
 
 	/**

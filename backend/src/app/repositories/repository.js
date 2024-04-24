@@ -29,7 +29,7 @@ class repository {
 	 * @returns Resultado da consulta em JSON
 	 */
 	getAll(nomeTabela) {
-		const sql = `select * from ${nomeTabela};`;
+		const sql = `select * from ${nomeTabela};`; // Aqui eu formato a query;
 		return this.exception(
 			sql,
 			[],
@@ -45,9 +45,9 @@ class repository {
 	 * @returns Retorna o resultado da inserção.
 	 */
 	addRow(nomeTabela, nomeAtributos, values) {
-		const arrayNomes = nomeAtributos.split(",");
-		const interrogacoes = arrayNomes.map(() => "?").join(", ");
-		const sql = `insert into ${nomeTabela} (${nomeAtributos}) values (${interrogacoes})`;
+		const arrayNomes = nomeAtributos.split(","); // Transformo a string em um array de nomes.
+		const interrogacoes = arrayNomes.map(() => "?").join(", "); // Uso o array de nomes como base para definir o Prepared Statement. 
+		const sql = `insert into ${nomeTabela} (${nomeAtributos}) values (${interrogacoes})`; // Aqui eu formato a query;
 		return this.exception(
 			sql,
 			values,
@@ -63,7 +63,7 @@ class repository {
 	 * @returns Retorna em JSON o elemento procurado, nada ou uma mensagem de erro.
 	 */
 	getById(nomeTabela, atributoId, id) {
-		const sql = `select * from ${nomeTabela} where ${atributoId} = ?;`;
+		const sql = `select * from ${nomeTabela} where ${atributoId} = ?;`; // Aqui eu formato a query;
 		return this.exception(
 			sql,
 			[id],
@@ -80,11 +80,9 @@ class repository {
 	 * @returns Retorna o resultado da consulta.
 	 */
 	updateById(nomeTabela, propriedades, atributoId, values) {
-		const propriedadeValor = propriedades
-			.split(",")
-			.map((p) => `${p} = ?`)
-			.join(", ");
-		const sql = `update ${nomeTabela} set ${propriedadeValor} where ${atributoId} = ?;`;
+		// Na linha abaixo eu separo a string e transformo ela em um array, depois eu adiciono "= ?" em cada elemento do array e por fim, junto tudo numa string
+		const propriedadeValor = propriedades.split(",").map((p) => `${p} = ?`).join(", ");
+		const sql = `update ${nomeTabela} set ${propriedadeValor} where ${atributoId} = ?;`; // Aqui eu formato a query;
 		return this.exception(
 			sql,
 			values,
@@ -100,7 +98,7 @@ class repository {
 	 * @returns  Retorna o resultado da consulta.
 	 */
 	deleteById(nomeTabela, atributoId, id) {
-		const sql = `delete from ${nomeTabela} where ${atributoId} = ?;`;
+		const sql = `delete from ${nomeTabela} where ${atributoId} = ?;`; // Aqui eu formato a query;
 		return this.exception(
 			sql,
 			id,

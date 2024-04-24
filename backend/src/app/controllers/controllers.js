@@ -2,6 +2,7 @@
 
 import controller from "./classeController.js";
 
+// Criação de todos os controllers que servem de referencia para as tabelas do banco de dados.
 const controllerProfissionais = new controller(
 	"tblProfissionais",
 	"id_profissional",

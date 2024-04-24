@@ -34,10 +34,15 @@ class Pool {
 	this.createDataBaseIfNotExists(database);	
 	}
 
+	/**
+	 * 
+	 * @param {string} database Nome da base de dados. 
+	 * @returns retorna um erro ou nada.
+	 */
 	async createDataBaseIfNotExists(database){
-		let conn;
+		let conn; // crio a variável aqui pra que possa ser usada em todo o método.
 		try{
-			conn = await this.getPool().promise().getConnection();
+			conn = await this.getPool().promise().getConnection(); // Pego a conexão da pool através de uma promise.
 			if(!conn) throw new Error("Não foi possível estabelecer a conexão.")
 
 			await conn.query(
@@ -50,13 +55,14 @@ class Pool {
 			console.error(error.message);
 			return error;
 		}finally{
-			if(conn) conn.release();
+			if(conn) conn.release(); // Fecho a conexão no final, caso ela tenha sido um sucesso.
 		}
 
 		this.createTablesIfNotExists();
 	}
 
 	async createTablesIfNotExists(){
+		// try que cria todas as tabelas da base de dados.
 		try{
 			await this.connection(
 				`create table if not exists tblProfissionais(
@@ -170,9 +176,9 @@ class Pool {
 	 * @returns Retorna o erro, caso tenha, ou o resultado da consulta.
 	 */
 	async connection(sql, valores, errorMessage) {
-		let conn;
+		let conn; // crio a variável aqui pra que possa ser usada em todo o método.
 		try {
-			conn = await this.getPool().promise().getConnection();
+			conn = await this.getPool().promise().getConnection(); // Pego a conexão da pool através de uma promise.
 			if (!conn)
 				throw new Error("Não foi possível estabelecer uma conexão.");
 
@@ -182,7 +188,7 @@ class Pool {
 			console.error("Erro durante a execução da consulta:", error);
 			throw new Error(errorMessage);
 		} finally {
-			if(conn) conn.release();
+			if(conn) conn.release(); // Fecho a conexão no final, caso ela tenha sido um sucesso.
 		}
 	}
 }

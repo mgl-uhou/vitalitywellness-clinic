@@ -1,3 +1,5 @@
+"use strict";
+
 import repository from "../repositories/repository.js";
 import moment from "moment";
 

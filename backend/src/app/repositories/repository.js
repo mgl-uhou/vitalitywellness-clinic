@@ -1,5 +1,6 @@
+"use strict";
+
 import { pool } from "../database/classePool.js";
-// import { this.exception } from './this.exception.js';
 
 class repository {
 	/**

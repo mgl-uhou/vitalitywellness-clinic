@@ -1,3 +1,5 @@
+"use strict";
+
 import { Router } from "express";
 import { controllerProfissionais, controllerEspecsPro, controllerServicos, controllerPrestam, controllerPacientes, controllerTelPacientes, controllerPagamentosAtende, controllerConsultas } from './app/controllers/controllers.js';
 

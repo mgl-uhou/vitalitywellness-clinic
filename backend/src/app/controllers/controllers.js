@@ -1,3 +1,5 @@
+"use strict";
+
 import controller from "./classeController.js";
 
 const controllerProfissionais = new controller(
